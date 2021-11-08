@@ -1,0 +1,136 @@
+Aula 1: Welcomo
+	* What separates this course from the others?
+		# TDD - Test Driver Development
+
+Aula 2: Intro to the course
+	* We are gonna build a virtual box of recipes application.
+
+	* Features:
+		# User authentication
+		# Creating objects
+		# Listing/filtering
+		# Upload of images
+
+Aula 3: Course structure
+	* OK
+
+Aula 4: How to get the most out of this course
+	* Commitment from the beggining to the end
+	* Code as you go
+	* Help other people
+
+Aula 5: How to get help
+	* Ok
+
+Aula 6: OK
+
+Aula 7: Python
+	* Python: Main programming language
+		# Version 3.7
+		# Application logic and tests
+		# PEP-8
+		# Automated code linting
+
+Aula 8: Django
+	* Django:
+		# Python web framework
+		# Build web apps rapidly
+		# ORM
+		# Django Admin
+
+Aula 9: Django Rest Framework
+	* Django Rest Framework:
+		# Extension to Django Framework
+		# Built in authentication
+		# Viewsets
+			> Will be used to create the structure of our API and provide all of the endpoints for managing objects
+		# Serializers
+			> Will be used to provide validation on all requests to our API and to help convert JSON to Django Database models
+		# Browsable API
+
+Aula 10: Docker
+	* Docker: A virtualization tool
+		# Isolate project dependencies
+		# Lightweight virtual machine
+		# Single image
+		# Consistent dev environment
+		# Deploy to cloud platform
+
+Aula 11: Travis-CI
+	* Travis-CI: Kinda of a DevOps
+		# Automate testing and linting
+		# Email notification if build breaks
+		# Identify issues early
+
+Aula 12: Postgres
+	* Postgres: OpenSource Database
+
+Aula 13: What is test driven development?
+	* Very important!!
+	* Unit tests:
+		# Checks that your code works
+		# Isolate specific code
+			-> Functions
+			-> Class
+			-> API endpoints
+	* Test stages:
+		# Three stages:
+			-> Setup: Create sample database objects
+			-> Execution: Call the code
+			-> Assertions: Confirm expected output
+
+	* Why write tests?
+		# Expected in most professional dev teams
+		# Makes it easier to change code
+		# Saves time!
+		# Testable, better quality code
+
+	* TDD Methods:
+		# Traditional development:
+			Implement feature -> Write tests
+
+		# TDD (Test Driver Development):
+			Write tests -> Implement feature
+
+		# Why use TDD?
+			-> Increases test coverage
+			-> Ensure tests work
+			-> Encourages quality code
+			-> Stay focused
+
+Aula 14: System setup
+	* OK
+
+Aula 15: Windows 10 Home Workaround
+	* OK
+
+Aula 16: Setup new GitHub project
+	* OK
+
+Aula 17: Add Dockerfile
+	* Dockerfile it's just a file that contains a list of instructions for Docker to build the Docker image.
+	* It's needed to describe all the dependencies that you need for your project in the Dockerfile.
+	* The file needs to begin with a capital D -> Dockerfile
+	* It's possible to use an image to be the base of another image, so you just add what you need on top of it.
+	* List of available images: https://hub.docker.com
+
+	Steps:
+		# Create a file named by "Dockerfile":
+			-> This file contains all the instructions to docker build the image.
+		# Create a file named by "requirements.txt":
+			-> This file contains all the libraries that Docker will read and build the image with then.
+		# Run the comand: "docker build ."
+
+Aula 18: Configure Docker Compose
+	* Docker Compose it's a file configuration that helps to run the Docker image from the project location.
+	* The file contains all of the services that make up the project.
+
+	Steps:
+		# Create a file named by "docker-compose.yml"
+			-> This file contains the libraries used in the project and all the services that make up the project.
+		# Run the command: "docker-compose build"
+
+Aula 19: Create Django project
+	* Creating a Django project using the Docker configuration setted before. To do that, it's necessary to run a command from the Docker container:
+		# "docker-compose run app sh -c "django-admin.py startproject app .""
+
