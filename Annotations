@@ -134,3 +134,63 @@ Aula 19: Create Django project
 	* Creating a Django project using the Docker configuration setted before. To do that, it's necessary to run a command from the Docker container:
 		# "docker-compose run app sh -c "django-admin.py startproject app .""
 
+Aula 20: Enable CircleCI for project
+	* CircleCI it's tool that allow us to automate some of the tests of our project.
+	
+	Steps:
+		# Access CircleCI website (https://app.circleci.com/)
+		# Enable it on the repository
+		# Create the file config.yml inside of the folder .circleci
+
+	** Travis-CI is descontinued and configuring CircleCI was kinda different.
+
+Aula 21: Writing a simple unit test
+	* The Django looks for files that the name begins with "tests" and uses them to run unit tests.
+
+	* Steps to build a unit test file:
+		# Import the Django Unit Test library:
+			- from django.test import TestCase
+
+		# Import the functions that you are gonna test:
+			- from app.calc import add
+
+		# Create a class to create the function tests inside of it
+			- In this case we created the CalcTests(TestCase)
+			* It's important to remember to extends the TestCase class!
+
+		# Create your function/functions inside of the class and assert the output expected
+			- Example:
+				from django.test import TestCase
+				from app.calc import add
+
+				class CalcTests(TestCase):
+				    def test_add_numbers(self):
+				        """Testing that two number were added together correctly"""
+				        self.assertEqual(add(3, 8), 11)
+
+		# Run your test with the following command:
+			- docker-compose run app sh -c "python manage.py test"
+
+Aula 22: Writing a unit test with TDD
+	* TDD consists in writing the tests before writing the code.
+	* Then, write the test and after that write the code, like the subtraction function.
+
+Aula 23: Create core app
+	* The intention of the core app is to create a app to be the base of the rest of the sub apps that we create in our system.
+	* Anything that is shared in one or more apps, like migrations etc.
+
+	* Steps:
+		- Create the app: docker-compose run app sh -c "python manage.py startapp core"
+		- Exclude the tests.py file from the app created and create a folder named tests.
+		- Exclude the views.py file because it won't be used in the core app.
+		- Create a file named __init__.py inside of the tests folder.
+
+Aula 24: Add tests for custom user model
+	* Import the library test: from django.test import TestCase
+	# In this case we are gonna be testing the Custom User Model
+	* Create the class to test the Model extending the TestCase class: class ModelTests(TestCase):
+	* Create the function to teste what you want and assert it to the expected output.
+
+Aula 25: Implement custom user model
+	* After implementing the test, we are gonna create out Custom User Model
+	* 
