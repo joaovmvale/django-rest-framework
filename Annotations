@@ -193,4 +193,65 @@ Aula 24: Add tests for custom user model
 
 Aula 25: Implement custom user model
 	* After implementing the test, we are gonna create out Custom User Model
-	* 
+	from django.db import models
+	from django.contrib.auth.models import (
+	    AbstractBaseUser,
+	    BaseUserManager,
+	    PermissionsMixin,
+	)
+
+
+	class UserManager(BaseUserManager):
+	    def create_user(self, email, password=None, **extra_fields):
+	        """Creates and saves a new user"""
+	        user = self.model(email=email, **extra_fields)
+	        user.set_password(password)
+	        user.save(using=self._db)
+
+	        return user
+
+
+	class User(AbstractBaseUser, PermissionsMixin):
+	    """Custom user model that supports user email instead of username"""
+
+	    email = models.EmailField(max_length=255, unique=True)
+	    name = models.CharField(max_length=255)
+	    is_active = models.BooleanField(default=True)
+	    is_staff = models.BooleanField(default=False)
+
+	    objects = UserManager()
+
+	    USERNAME_FIELD = "email"
+
+Aula 26: Normalize email addresses
+	* Just created a test that assert the email after user creation is normalized to lower case.
+	* Normalized the email inside of the models.
+
+Aula 27: Add validation for email field
+	* Just created a test that asserts a ValueError when there is no e-mail for the user
+	* Verified in the models.
+
+Aula 28: Add support for creating superusers
+	* Created a test that asserts the superuser created have is_staff and is_superuser as True.
+	* Used the existing function to create users and setted is_staff and is_superuser as True.
+
+Aula 29: Add tests for listing users in Django admin
+	* Created a class to test the Admin site, called AdminSiteTest(TestCase):
+	* It was necessary to use the following libraries:
+		- from django.test import TestCase, Client
+		- from django.contrib.auth import get_user_model
+		- from django.urls import reverse
+	* We needed to create a setUp function, that contains two users, a normal one and a superuser one.
+	* After, we created a class to test the listing of users on the Django panel:
+		def test_users_listed(self):
+	        """Test that users are listed on user page"""
+	        # rever("<app name>:<url>") -> These url's are defined by Django
+	        url = reverse("admin:core_user_changelist")
+	        res = self.client.get(url)
+
+	        self.assertContains(res, self.user.name)
+	        self.assertContains(res, self.user.email)
+	* Obs:
+		# We created a Client to make requests to our server, like self.client = Client()
+		# In this class we logged in the users, using "self.client.force_login(self.user)"
+		
