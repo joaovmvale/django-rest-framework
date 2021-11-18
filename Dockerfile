@@ -10,8 +10,14 @@ ENV PYTHONUNBIFFERED 1
 
 # Installing dependecies from the local file and storing it on Docker container
 COPY ./requirements.txt /requirements.txt
+# Creating a temporary build with some libraries to support the requirements install
+RUN apk add --update --no-cache postgresql-client
+RUN apk add --update --no-cache --virtual .tmp-build-dps \
+    gcc libc-dev linux-headers postgresql-dev
 # Running and installing the requirements in the container
 RUN pip install -r /requirements.txt
+# Deleting the temporary build
+RUN apk del .tmp-build-dps
 
 # Creating an empty folder on container
 RUN mkdir /app

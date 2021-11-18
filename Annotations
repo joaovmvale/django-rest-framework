@@ -1,6 +1,6 @@
 Aula 1: Welcomo
 	* What separates this course from the others?
-		# TDD - Test Driver Development
+		# TDD - Test Driven Development
 
 Aula 2: Intro to the course
 	* We are gonna build a virtual box of recipes application.
@@ -20,7 +20,7 @@ Aula 4: How to get the most out of this course
 	* Help other people
 
 Aula 5: How to get help
-	* Ok
+	* OK
 
 Aula 6: OK
 
@@ -45,7 +45,7 @@ Aula 9: Django Rest Framework
 		# Viewsets
 			> Will be used to create the structure of our API and provide all of the endpoints for managing objects
 		# Serializers
-			> Will be used to provide validation on all requests to our API and to help convert JSON to Django Database models
+			> Will be used to provide validation on all requests to our API and to help to convert JSON to Django Database models
 		# Browsable API
 
 Aula 10: Docker
@@ -68,7 +68,7 @@ Aula 12: Postgres
 Aula 13: What is test driven development?
 	* Very important!!
 	* Unit tests:
-		# Checks that your code works
+		# Checks that your code works correctly
 		# Isolate specific code
 			-> Functions
 			-> Class
@@ -81,7 +81,7 @@ Aula 13: What is test driven development?
 
 	* Why write tests?
 		# Expected in most professional dev teams
-		# Makes it easier to change code
+		# Makes it easier to change the code
 		# Saves time!
 		# Testable, better quality code
 
@@ -89,7 +89,7 @@ Aula 13: What is test driven development?
 		# Traditional development:
 			Implement feature -> Write tests
 
-		# TDD (Test Driver Development):
+		# TDD (Test Driven Development):
 			Write tests -> Implement feature
 
 		# Why use TDD?
@@ -144,7 +144,7 @@ Aula 20: Enable CircleCI for project
 
 	** Travis-CI is descontinued and configuring CircleCI was kinda different.
 
-Aula 21: Writing a simple unit test
+Aula 24: Writing a simple unit test
 	* The Django looks for files that the name begins with "tests" and uses them to run unit tests.
 
 	* Steps to build a unit test file:
@@ -171,11 +171,11 @@ Aula 21: Writing a simple unit test
 		# Run your test with the following command:
 			- docker-compose run app sh -c "python manage.py test"
 
-Aula 22: Writing a unit test with TDD
+Aula 25: Writing a unit test with TDD
 	* TDD consists in writing the tests before writing the code.
 	* Then, write the test and after that write the code, like the subtraction function.
 
-Aula 23: Create core app
+Aula 26: Create core app
 	* The intention of the core app is to create a app to be the base of the rest of the sub apps that we create in our system.
 	* Anything that is shared in one or more apps, like migrations etc.
 
@@ -185,13 +185,13 @@ Aula 23: Create core app
 		- Exclude the views.py file because it won't be used in the core app.
 		- Create a file named __init__.py inside of the tests folder.
 
-Aula 24: Add tests for custom user model
+Aula 27: Add tests for custom user model
 	* Import the library test: from django.test import TestCase
 	# In this case we are gonna be testing the Custom User Model
 	* Create the class to test the Model extending the TestCase class: class ModelTests(TestCase):
 	* Create the function to teste what you want and assert it to the expected output.
 
-Aula 25: Implement custom user model
+Aula 28: Implement custom user model
 	* After implementing the test, we are gonna create out Custom User Model
 	from django.db import models
 	from django.contrib.auth.models import (
@@ -223,19 +223,19 @@ Aula 25: Implement custom user model
 
 	    USERNAME_FIELD = "email"
 
-Aula 26: Normalize email addresses
+Aula 29: Normalize email addresses
 	* Just created a test that assert the email after user creation is normalized to lower case.
 	* Normalized the email inside of the models.
 
-Aula 27: Add validation for email field
+Aula 30: Add validation for email field
 	* Just created a test that asserts a ValueError when there is no e-mail for the user
 	* Verified in the models.
 
-Aula 28: Add support for creating superusers
+Aula 31: Add support for creating superusers
 	* Created a test that asserts the superuser created have is_staff and is_superuser as True.
 	* Used the existing function to create users and setted is_staff and is_superuser as True.
 
-Aula 29: Add tests for listing users in Django admin
+Aula 32: Add tests for listing users in Django admin
 	* Created a class to test the Admin site, called AdminSiteTest(TestCase):
 	* It was necessary to use the following libraries:
 		- from django.test import TestCase, Client
@@ -245,7 +245,7 @@ Aula 29: Add tests for listing users in Django admin
 	* After, we created a class to test the listing of users on the Django panel:
 		def test_users_listed(self):
 	        """Test that users are listed on user page"""
-	        # rever("<app name>:<url>") -> These url's are defined by Django
+	        # reverse("<app name>:<url>") -> These url's are defined by Django
 	        url = reverse("admin:core_user_changelist")
 	        res = self.client.get(url)
 
@@ -254,4 +254,123 @@ Aula 29: Add tests for listing users in Django admin
 	* Obs:
 		# We created a Client to make requests to our server, like self.client = Client()
 		# In this class we logged in the users, using "self.client.force_login(self.user)"
-		
+
+Aula 33: Modify Django admin to list our custom user model
+	* We have created the class to list the users on the Django panel:
+		@admin.register(models.User)
+		class UserAdmin(BaseUserAdmin):
+		    ordering = ["id"]
+		    list_display = ["email", "name"]
+
+		# Obs: It's important to registrate the class on the Django.
+
+Aula 34: Modify Django admin to support changing user model
+	* We created two tests that asserts the user edit and user create pages works fine.
+		# Asserting that the response has the status_code 200
+	* Added to the admin the fields so adming can support the custom user model.
+
+Aula 36: Add postgres to docker compose
+	* Included the database configuration in the file docker-compose.yml.
+	* Added an special configuration, called depends_on: , that set the service to depend on another services, in this case we have used the app to starts after the database.
+
+Aula 37: Add postgres support to Dockerfile
+	* Created a temporary build before installing the dependencies (requirements.txt), this makes Docker to support the dep installing.
+	* It's important to use the --no-cache option, to make sure the application isn't storing unecessary things and making it vulnerable.
+
+Aula 38: Configure database in Django
+	* Changed the database settings inside of the settings.py of the project.
+	* It's important to use the environment paths to set the database parameters. Example:
+		DATABASES = {
+		    "default": {
+		        "ENGINE": "django.db.backends.postgresql",
+		        "HOST": os.environ.get("DB_HOST"),
+		        "NAME": os.environ.get("DB_NAME"),
+		        "user": os.environ.get("DB_USER"),
+		        "PASSWORD": os.environ.get("DB_PASS"),
+		    }
+		}
+
+Aula 39: Mocking with unittests
+	* Mocking:
+		# It's when you override or change behaviour of dependecies.
+		# Can isolate specific parte of the code
+
+	* When writing unit tests:
+		# You should never depend on external services
+			# Because:
+				- Can't guarantee they will be available
+				- Make tests unpredictable and unreliable
+		# Example:
+			You can override the function that send e-mail to test without sending e-mail for each test
+
+Aula 40: Add tests for wait_for_db command
+	* This is an important thing because, there is a possibility to the postgres doenst make up well, so the app will try to connect with the databse and there's gonna be an error.
+
+	* We created a test that returns when the db is available and another that tests the waiting when the db is available
+
+Aula 41: Add wait_for_db command
+	* It's necessary to create a file to test the commands.
+		# It's convencional to create a folder named by management and put all of the commands inside of it
+		# It's also needed to create a __init__.py file, so the folder will be recognized as a python module
+		# Inside of each folder of the management folder, it's also necessary to add the __init__ file
+
+	* Created a Command class that basically waits the connection untill it get ready.
+
+Aula 42: Make docker compose wait for db:
+	* Just changed the command on docker-compose to run the migrations and also the command created.
+		# sh -c "python manage.py wait_for_db &&
+              python manage.py migrate &&
+              python manage.py runserver 0.0.0.0:8000"
+
+Aula 43: Test in browser
+	* Just created a super user from docker-compose run app and tried it on the browser
+
+Aula 44: Mocking:
+	* Ok
+
+Aula 45: Create users app
+	* The is an argument "--rm" that you can use on your docker commands, it removes the container after running it. This is good to commands that you just want to run once and don't want the docker to linger on the system.
+	* Just created the app using the argument above.
+	* Some steps to do after creating a new app:
+		- Remove the migrations folder: It will be tracked only in the core app
+		- Remove the models file: We are gonna keep it on the core app
+		- Remove the admin file: Same
+		- Remove the tests file and create a subfolder on the app to create the tests
+			# Create an file named by "__init__.py" so python can identify the folder tests as a module.
+
+Aula 46: Add tests for create user API
+	* Created a class named PublicUserApiTests, that test the public users API.
+	* Created a setUp that only contains a client: self.client = APIClient() -> This rest framewok request library.
+	* Created a test that test a successful user creation.
+		# Used the library status from rest framework to asser the status HTTP_201_CREATED
+	* Created a test that ensure that it's not possible to create a user that already exists
+	* Created a test that ensure that it's not possible to create a user with a password with less than 5 characters
+
+Aula 47: Add create user API
+	* Created a file named "serializer.py" inside of the app and created a class that inherits the ModelSerializer from rest_framework:
+		class UserSerializer(serializers.ModelSerializer):
+		    """Serializer for the users object"""
+
+		    class Meta:
+		        model = get_user_model()
+		        fields = ("email", "password", "name")
+		        extra_kwargs = {"password": {"write_only": True, "min_length": 5}}
+
+		    def create(self, validated_data):
+		        """Create a new user with encrypted password and return it"""
+		        return get_user_model().objects.create_user(**validated_data)
+
+	* Inside of the view of the app just imported the generics from rest_framework and the Serializer, after that created a class very simple:
+		class CreateUserView(generics.CreateAPIView):
+		    """Create a new user in the system"""
+		    serializer_class = UserSerializer
+
+	* After that we created the urls file inside of the app and imported it on the project urls.
+
+Aula 49: Add tests for creating a new token
+	* Just created a few tests about user token creation.
+
+Aula 50: Add create token API
+	* Created the serializer, view and added the URL
+
+Aula 51: 
