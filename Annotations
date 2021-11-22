@@ -373,4 +373,39 @@ Aula 49: Add tests for creating a new token
 Aula 50: Add create token API
 	* Created the serializer, view and added the URL
 
-Aula 51: 
+Aula 51: Add tests for manage user endpoint
+	* Created anothe class that contains the tests for authenticated users
+	* We created an authenticated user on the setup
+	* Created tests for:
+		# The user can retrieve his informations
+		# The user cannot use the method POST, only PATCH and UPDATE
+		# The user can update his data
+
+Aula 52: Add manage user endpoint
+	* Created a view for the manage user, for it, setted some arguments:
+		# serializer_class -> Reference to the serializer class
+		# authentication_classes -> Referente to the authentication class, in this case from the rest_framework
+		# permissions_classes -> What define your user
+
+Aula 53: Create recipe app
+	* Created a app named "recipe"
+	* Removed the unecessary files:
+		# tests -> Created a folder for it
+		# admin -> We are gonna keep it on the core app
+		# migrations -> We are gonna still tracking it on the core app
+		# models -> We are gonna still modeling our project on the core app
+	* Enabled the app on the project settings
+
+Aula 54: Add tag model
+	* Created a test for the model
+	* Created the model with a name and a user that is a foreign key that gets the user directly from the setttings
+	* Registered on the admin site the model
+
+Aula 55: Add tests for listing tags
+	* Created some tests for the tags, base on:
+		# Unauthenticated users cannot get the tags
+		# Users can only create or get tags authenticated
+		# Users can only list his own tags
+
+Aula 56: Add feature to list tags
+	* 
