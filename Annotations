@@ -408,4 +408,16 @@ Aula 55: Add tests for listing tags
 		# Users can only list his own tags
 
 Aula 56: Add feature to list tags
-	* 
+	* Created the serializer
+	* Created the views
+	* Created the URLs
+
+Aula 57: Add create tags feature
+	* Created two methods that consists in:
+		# Create tags successful and failed
+
+	* Modified the view:
+		# Added a new mixin to create objects
+		# Added a new method that override the default one:
+			# def perform_create(self):
+				...

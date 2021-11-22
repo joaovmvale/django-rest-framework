@@ -48,7 +48,10 @@ class PrivateTagsApiTests(TestCase):
 
     def test_tags_limited_to_user(self):
         """Test that tags returned are for the authenticated user"""
-        user2 = get_user_model().objects.create_user("other@email.com", "testpass")
+        user2 = get_user_model().objects.create_user(
+            "other@email.com",
+            "testpass",
+        )
 
         Tag.objects.create(user=user2, name="Fruity")
         tag = Tag.objects.create(user=self.user, name="Comfort Food")
@@ -58,3 +61,26 @@ class PrivateTagsApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(len(res.data), 1)
         self.assertEqual(res.data[0]["name"], tag.name)
+
+    def test_create_tags_successful(self):
+        """Test creating a new tag"""
+        payload = {
+            "name": "Test tag",
+        }
+        self.client.post(TAGS_URL, payload)
+
+        exists = Tag.objects.filter(
+            user=self.user,
+            name=payload["name"],
+        ).exists()
+
+        self.assertTrue(exists)
+
+    def test_create_tags_invalid(self):
+        """Test creating a new tag with invalid payload"""
+        payload = {
+            "name": "",
+        }
+        res = self.client.post(TAGS_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
