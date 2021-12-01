@@ -421,3 +421,22 @@ Aula 57: Add create tags feature
 		# Added a new method that override the default one:
 			# def perform_create(self):
 				...
+
+Aula 58: Add ingredient model
+	* Created the test for the str representation of the model
+	* Created the model
+
+Aula 59: Add tests for listing ingredients
+	* Created an file for the ingredients tests
+	* Created tests for public and private APIs
+
+Aula 60: Implement feature for listing ingredients
+	* Created an serializer for the viewset
+	* Created a viewset for ingredients
+
+Aula 61: Implement feature for creating ingredients
+	* Created an method to create objects and tested it with and valid and an
+		invalid payload
+	* Also tested on the browser
+
+Aula 62: Re-factor tags and ingredients viewsets
